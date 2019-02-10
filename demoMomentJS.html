@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="moment-with-locales.js"></script>
+<body>
+	<h1>Format Dates</h1>
+	<h4>YYYY-MM-DD:</h4><p id="fecha1"></p>
+	<br>
+	<h4>dddd-MMMM-YY:</h4><p id="fecha2"></p>
+	<br>
+	<h4>ddddDD-mm-YY:</h4><p id="fecha3"></p>
+	<br>
+	<h4>DD [de] MMMM [del] YYYY, HH:mm:</h4><p id="fecha4"></p>
+
+	<br><hr><br>
+	<h1>Relative Time</h1>
+	<h4>Tiempo que ha pasado desde el 31-10-2011:</h4><p id="fecha5"></p>
+	<h4>Tiempo que ha pasado desde el 31-01-2019:</h4><p id="fecha6"></p>
+	<h4>Tiempo que ha pasado desde el comienzo del dia:</h4><p id="fecha7"></p>
+	<h4>Tiempo que falta hasta el final del dia:</h4><p id="fecha8"></p>
+	<h4>Tiempo que ha pasado desde el comienzo de la hora:</h4><p id="fecha9"></p>
+
+	<br><hr><br>
+	<h1>Calendar Time</h1>
+	<h4>menos 1 año:</h4><p id="fecha10"></p>
+	<h4>menos 3 dias:</h4><p id="fecha11"></p>
+	<h4>menos 1 dia:</h4><p id="fecha12"></p>
+	<h4>Hoy:</h4><p id="fecha13"></p>
+	<h4>mas 1 dia:</h4><p id="fecha14"></p>
+	<h4>mas 3 dias:</h4><p id="fecha15"></p>
+	<h4>mas 1 año:</h4><p id="fecha16"></p>
+
+	<br><hr><br>
+	<h4>Javascript:</h4><p id="hechoJs"></p>
+	<h4>Moment:</h4><p id="hechoMoment"></p>
+
+	<script type="text/javascript">
+		document.getElementById("fecha1").innerHTML = moment().format('YYYY-MM-DD');
+		document.getElementById("fecha2").innerHTML = moment().format('dddd-MMMM-YY');
+		document.getElementById("fecha3").innerHTML = moment().format('ddddDD-mm-YY');
+		document.getElementById("fecha4").innerHTML = moment().format('DD [de] MMMM [del] YYYY, HH:mm');
+
+		document.getElementById("fecha5").innerHTML = moment("20111031", "YYYYMMDD").fromNow();
+		document.getElementById("fecha6").innerHTML = moment("20190131", "YYYYMMDD").fromNow();
+		document.getElementById("fecha7").innerHTML = moment().startOf('day').fromNow();
+		document.getElementById("fecha8").innerHTML = moment().endOf('day').fromNow();
+		document.getElementById("fecha9").innerHTML = moment().startOf('hour').fromNow();
+
+
+		document.getElementById("fecha10").innerHTML =  moment().subtract(1, 'year').calendar();
+		document.getElementById("fecha11").innerHTML = moment().subtract(3, 'days').calendar();
+		document.getElementById("fecha12").innerHTML = moment().subtract(1, 'days').calendar();
+		document.getElementById("fecha13").innerHTML = moment().calendar();
+		document.getElementById("fecha14").innerHTML = moment().add(1, 'days').calendar();
+		document.getElementById("fecha15").innerHTML = moment().add(3, 'days').calendar();
+		document.getElementById("fecha16").innerHTML = moment().add(1, 'year').calendar();
+
+
+		function hechoConJavascript(){
+			var hoy = new Date();
+			var finDeAny = new Date(2019, 11, 31, 23, 59); 
+			finDeAny.setFullYear(hoy.getFullYear());
+			var msPorDia = 24 * 60 * 60 * 1000;
+			var diasFaltantes = (finDeAny.getTime() - hoy.getTime()) / msPorDia;
+			var diasFaltantes = Math.round(diasFaltantes);
+			document.getElementById("hechoJs").innerHTML = diasFaltantes;
+		}
+		function hechoConMoment(){
+			moment().format();
+
+			var now = moment().calendar();
+			var end = moment().endOf('year');
+			var duration = moment.duration(moment().diff(end));
+			var days = -1*(duration.asDays());
+			document.getElementById("hechoMoment").innerHTML = days;
+		}
+
+
+		hechoConJavascript();
+		hechoConMoment();
+
+	</script>
+
+</body>
+</html>
+
